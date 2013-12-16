@@ -8,7 +8,7 @@ OBJS=main.o
 wiringpid: $(OBJS)
 	$(CC) $(CFLAGS) `php-config --ldflags` -o $@ $^ -lphp5
 
-scripts.h:
+scripts.h:scripts/*.php
 	php scripts.h.php scripts
 
 main.o: scripts.h

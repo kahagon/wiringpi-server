@@ -24,7 +24,6 @@ while (false !== ($entry = $dir->read())) {
 }
 $dir->close();
 
-//print $decls;
 $fh = fopen($header_file_name, 'w');
 if (!$fh) {
     print 'failed create header file' . PHP_EOL;
@@ -35,19 +34,19 @@ fwrite($fh, $decls);
 fclose($fh);
 
 function generate_script_decl($path) {
+    $name = preg_replace('/\./', '_', basename($path));
     $patterns = array(
-        '/\./',
+        '/<\?php/',
         '/"/',
         '/\s+$/');
     $replacements = array(
-        '_',
+        '',
         '\"',
         '');
-    $name = preg_replace($patterns, $replacements, basename($path));
+
     $decl = "char* script_$name = " . PHP_EOL;
     $fh = fopen($path, 'r');
     while (false!==($line=fgets($fh))) {
-        //$decl .= "\t\"" . rtrim(addcslashes($line, "\"")) . "\"" . PHP_EOL;
         $decl .= "\t\"" . preg_replace($patterns, $replacements, $line) . "\"" . PHP_EOL;
     }
 

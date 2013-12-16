@@ -17,10 +17,10 @@ if (!$dir) {
 $decls = '';
 
 while (false !== ($entry = $dir->read())) {
-    if ($entry=='.' || $entry=='..')
+    if (!preg_match('/.*\.php$/', $entry))
         continue;
     $path = $dir->path . DIRECTORY_SEPARATOR . $entry;
-    $decls = generate_script_decl($path);
+    $decls .= generate_script_decl($path);
 }
 $dir->close();
 

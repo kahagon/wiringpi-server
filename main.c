@@ -14,7 +14,20 @@ int wiringpid_eval_php_code(char *code) {
     return ret == FAILURE;
 }
 
+int wiringpid_daemonize() {
+    int result = 0;
+    result = daemon(1, 0);
+    return result;
+}
+
 int main(int argc, char* argv[]) {
+
+    int result = wiringpid_daemonize();
+    if (0>result) {
+        printf("failed to daemonize\n");
+        return 2;
+    }
+
     PHP_EMBED_START_BLOCK(argc, argv);
 
     wiringpid_eval_php_code(script_phpinfo_php);
